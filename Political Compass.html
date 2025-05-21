@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Political Compass (Marxist Interpretation V2)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" xintegrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" xintegrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        :root {
+            /* Dark Theme (Default) Variables */
+            --bg-page: #111827; 
+            --bg-sidebar: #1F2937; 
+            --bg-card: #374151; 
+            --bg-modal: #1F2937; 
+            --bg-button-primary: #DC2626; 
+            --bg-button-primary-hover: #B91C1C; 
+            --bg-button-secondary: #4B5563; 
+            --bg-button-secondary-hover: #374151; 
+            --bg-button-special: #5B21B6; 
+            --bg-button-special-hover: #4C1D95; 
+            --bg-button-green: #16A34A; 
+            --bg-button-green-hover: #15803D; 
+            --bg-button-blue: #2563EB; 
+            --bg-button-blue-hover: #1D4ED8; 
+            --bg-button-yellow: #CA8A04; 
+            --bg-button-yellow-hover: #A16207; 
+            --bg-button-indigo: #4F46E5; 
+            --bg-button-indigo-hover: #4338CA; 
+            --bg-button-teal: #0D9488; 
+            --bg-button-teal-hover: #0F766E; 
+            --bg-button-sky: #0284C7; 
+            --bg-button-sky-hover: #0369A1; 
+
+            --text-primary: #E5E7EB; 
+            --text-secondary: #D1D5DB; 
+            --text-muted: #9CA3AF; 
+            --text-heading-main: #EF4444; 
+            --text-heading-sidebar: #F87171; 
+            --text-heading-sidebar-orange: #F97316; /* For right sidebar orange headings */
+            --text-heading-modal: #A78BFA; 
+            --text-button: #FFFFFF;
+            --text-link: var(--text-secondary);
+            --text-link-hover-red: #FCA5A5; 
+            --text-link-hover-orange: #FDBA74; 
+            --text-link-hover-purple: #C4B5FD; /* Lighter purple for modal link hover */
+
+            --border-primary: #374151; 
+            --border-secondary: #4B5563; 
+            --border-divider: #6B7280; 
+            --border-heading-sidebar: #EF4444; /* Red for left sidebar headings */
+            --border-heading-sidebar-orange: #F97316; /* Orange for right sidebar headings */
+
+
+            --scrollbar-track: #2d3748; 
+            --scrollbar-thumb: #718096; 
+            --scrollbar-thumb-hover: #a0aec0; 
+            
+            --progress-bar-bg: #4B5563; 
+            --progress-bar-fill: #22C55E; 
+
+            --quadrant-authleft-bg: rgba(153, 27, 27, 0.6);
+            --quadrant-authleft-text: #FCA5A5; 
+            --quadrant-authright-bg: rgba(30, 58, 138, 0.6);
+            --quadrant-authright-text: #93C5FD; 
+            --quadrant-libleft-bg: rgba(180, 83, 9, 0.6);
+            --quadrant-libleft-text: #FCD34D; 
+            --quadrant-libright-bg: rgba(88, 28, 135, 0.6);
+            --quadrant-libright-text: #C4B5FD; 
+
+            --custom-radio-border: #9CA3AF;
+            --custom-radio-checked-bg: #DC2626;
+            --custom-radio-checked-dot: #FFFFFF;
+            
+            --selection-bg: #DC2626; 
+            --selection-text: #FFFFFF;
+
+            --toggle-slider-bg: #4A5568; 
+            --toggle-slider-knob-bg: white;
+            --text-accent-yellow: #FACC15; /* For compass dot and ideology result */
+        }
+
+        [data-theme="light"] {
+            --bg-page: #F9FAFB; 
+            --bg-sidebar: #FFFFFF; 
+            --bg-card: #FFFFFF; 
+            --bg-modal: #FFFFFF; 
+            --bg-button-primary: #DC2626; 
+            --bg-button-primary-hover: #B91C1C;
+            --bg-button-secondary: #E5E7EB; 
+            --bg-button-secondary-hover: #D1D5DB; 
+            --bg-button-special: #7C3AED; 
+            --bg-button-special-hover: #6D28D9;
+            --bg-button-green: #22C55E;
+            --bg-button-green-hover: #16A34A;
+            --bg-button-blue: #3B82F6;
+            --bg-button-blue-hover: #2563EB;
+            --bg-button-yellow: #F59E0B;
+            --bg-button-yellow-hover: #D97706;
+            --bg-button-indigo: #6366F1;
+            --bg-button-indigo-hover: #4F46E5;
+            --bg-button-teal: #14B8A6;
+            --bg-button-teal-hover: #0D9488;
+            --bg-button-sky: #0EA5E9;
+            --bg-button-sky-hover: #0284C7;
+
+            --text-primary: #1F2937; 
+            --text-secondary: #374151; 
+            --text-muted: #6B7280; 
+            --text-heading-main: #C53030; 
+            --text-heading-sidebar: #C53030; /* Darker red for left sidebar */
+            --text-heading-sidebar-orange: #C2410C; /* Darker orange for right sidebar */
+            --text-heading-modal: #6B46C1; /* Darker purple for modal headings */
+            --text-button: #FFFFFF; 
+            
+            --text-link: var(--text-primary);
+            --text-link-hover-red: #C53030;
+            --text-link-hover-orange: #C05621;
+            --text-link-hover-purple: #8B5CF6; /* A slightly lighter purple for hover on light theme */
+
+            --border-primary: #D1D5DB; 
+            --border-secondary: #E5E7EB; 
+            --border-divider: #CBD5E0; 
+            --border-heading-sidebar: #C53030; /* Darker red for left sidebar headings */
+            --border-heading-sidebar-orange: #C2410C; /* Darker orange for right sidebar headings */
+
+
+            --scrollbar-track: #E5E7EB; 
+            --scrollbar-thumb: #A0AEC0; 
+            --scrollbar-thumb-hover: #718096; 
+
+            --progress-bar-bg: #D1D5DB; 
+            --progress-bar-fill: #16A34A; 
+
+            --quadrant-authleft-bg: rgba(254, 202, 202, 0.7); 
+            --quadrant-authleft-text: #9B2C2C; 
+            --quadrant-authright-bg: rgba(191, 219, 254, 0.7); 
+            --quadrant-authright-text: #2C5282; 
+            --quadrant-libleft-bg: rgba(254, 235, 200, 0.7); 
+            --quadrant-libleft-text: #975A16; 
+            --quadrant-libright-bg: rgba(224, 204, 250, 0.7); 
+            --quadrant-libright-text: #553C9A; 
+
+            --custom-radio-border: #A0AEC0; 
+            --custom-radio-checked-bg: #DC2626;
+            --custom-radio-checked-dot: #FFFFFF;
+
+            --selection-bg: #F87171; 
+            --selection-text: #1F2937; 
+
+            --toggle-slider-bg: #CBD5E0; 
+            --toggle-slider-knob-bg: #4A5568; 
+            --text-accent-yellow: #D97706; /* Darker yellow for light theme dot */
+        }
+
+        ::selection {
+            background-color: var(--selection-bg);
+            color: var(--selection-text);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: var(--scrollbar-track); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+        
+        #left-sidebar, #right-sidebar, #theoryModalContent { --scrollbar-track: var(--bg-sidebar); }
+        #left-sidebar::-webkit-scrollbar-track, #right-sidebar::-webkit-scrollbar-track, #theoryModalContent::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        #left-sidebar::-webkit-scrollbar-thumb, #right-sidebar::-webkit-scrollbar-thumb, #theoryModalContent::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); }
+        #left-sidebar::-webkit-scrollbar-thumb:hover, #right-sidebar::-webkit-scrollbar-thumb:hover, #theoryModalContent::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+        .theme-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .theme-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--toggle-slider-bg); transition: .4s; border-radius: 28px; display: flex; align-items: center; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: var(--toggle-slider-knob-bg); transition: .4s; border-radius: 50%; }
+        .slider .sun-icon, .slider .moon-icon { font-size: 14px; position: absolute; top: 50%; transform: translateY(-50%); opacity: 0.9; transition: opacity 0.3s ease; color: var(--toggle-slider-knob-bg); }
+        [data-theme="light"] .slider .sun-icon, [data-theme="light"] .slider .moon-icon { color: var(--toggle-slider-knob-bg); }
+        .slider .sun-icon { left: 6px; }
+        .slider .moon-icon { right: 6px; }
+        input:checked + .slider:before { transform: translateX(22px); }
+        .current-theme-label { color: var(--text-secondary); font-size: 0.8rem; }
+
+        #left-sidebar, #right-sidebar { background-color: var(--bg-sidebar); color: var(--text-secondary); border-color: var(--border-primary); }
+        .sticky-header-mobile { background-color: var(--bg-sidebar); border-bottom-color: var(--border-primary); }
+        .main-title-desktop { color: var(--text-heading-main); }
+        .main-title-mobile { color: var(--text-heading-main); }
+        
+        #left-sidebar .sidebar-title { color: var(--text-heading-main); } 
+        #left-sidebar .sticky-header-mobile .main-title-mobile { color: var(--text-heading-main); } 
+        #right-sidebar .sidebar-title { color: var(--text-heading-sidebar-orange); } 
+        #right-sidebar .sticky-header-mobile .sidebar-title { color: var(--text-heading-sidebar-orange); }
+
+
+        .sidebar-section h3 {
+            border-bottom-width: 1px;
+            padding-bottom: 0.5rem; 
+            margin-bottom: 0.75rem; 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+        }
+        #left-sidebar .sidebar-section h3 {
+            color: var(--text-heading-sidebar);
+            border-bottom-color: var(--border-heading-sidebar);
+        }
+        #right-sidebar .sidebar-section h3 {
+            color: var(--text-heading-sidebar-orange);
+            border-bottom-color: var(--border-heading-sidebar-orange);
+        }
+
+
+        .sidebar-section p, .theory-modal-section p { color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6; margin-bottom: 0.75rem; }
+        .sidebar-section .sub-heading, .theory-modal-section .sub-heading { color: var(--text-primary); font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.25rem; font-size: 0.95em; }
+        
+        .sidebar-section ul li a { color: var(--text-link); text-decoration: underline; transition: color 0.2s ease; }
+        .sidebar-section#sidebarResources ul li a:hover { color: var(--text-link-hover-red); }
+        #right-sidebar .sidebar-section ul li a:hover { color: var(--text-link-hover-orange); }
+        .theory-modal-section a {
+            color: var(--text-heading-modal); 
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+        .theory-modal-section a:hover {
+            color: var(--text-link-hover-purple);
+        }
+
+
+        #progressBarContainer { background-color: var(--progress-bar-bg); }
+        #progressBarFill { background-color: var(--progress-bar-fill); }
+
+        #openTheoryModalButton { background-color: var(--bg-button-special); color: var(--text-button); }
+        #openTheoryModalButton:hover { background-color: var(--bg-button-special-hover); }
+
+        #app { background-color: var(--bg-card); border: 1px solid var(--border-primary); }
+        #startScreen h1 { color: var(--text-heading-main); }
+        .axis-card { background-color: var(--bg-sidebar); border: 1px solid var(--border-primary); color: var(--text-secondary); }
+        .axis-card h3 { color: var(--text-heading-sidebar); } 
+        .axis-card strong.text-red-300 { color: var(--text-link-hover-red); } 
+        .axis-card strong.text-blue-300 { color: #93C5FD; } 
+        .axis-card strong.text-yellow-300 { color: #FCD34D; }
+        .axis-card strong.text-purple-300 { color: #C4B5FD; }
+
+
+        #startButton { background-color: var(--bg-button-primary); color: var(--text-button); }
+        #startButton:hover { background-color: var(--bg-button-primary-hover); }
+
+        #questionsScreen h2 { color: var(--text-heading-main); }
+        .question-item { background-color: var(--bg-card); color: var(--text-primary); }
+        .question-item h3 { color: var(--text-primary); } 
+        .question-item label { color: var(--text-secondary); }
+        .question-item label:hover { background-color: var(--bg-button-secondary-hover); }
+
+        #prevQuestionButton { background-color: var(--bg-button-secondary); color: var(--text-primary); }
+        #prevQuestionButton:hover { background-color: var(--bg-button-secondary-hover); }
+        [data-theme="dark"] #prevQuestionButton { color: var(--text-button); }
+
+
+        #nextQuestionButton { background-color: var(--bg-button-green); color: var(--text-button); }
+        #nextQuestionButton:hover { background-color: var(--bg-button-green-hover); }
+        #nextQuestionButton.show-results { background-color: var(--bg-button-blue); }
+        #nextQuestionButton.show-results:hover { background-color: var(--bg-button-blue-hover); }
+
+        #questionCounter { color: var(--text-muted); }
+
+        #resultsScreen h2 { color: var(--text-heading-main); }
+        #resultsScreen .mb-6.p-4 { background-color: var(--bg-card); }
+        #compassCanvas { background-color: var(--bg-card); border: 1px solid var(--border-secondary); }
+        .quadrant-label { font-size: 0.6rem; font-weight: 600; pointer-events: none; text-align: center; line-height: 1.2; padding: 0.25rem; border-radius: 0.25rem; }
+        .quadrant-authleft { background-color: var(--quadrant-authleft-bg); color: var(--quadrant-authleft-text); }
+        .quadrant-authright { background-color: var(--quadrant-authright-bg); color: var(--quadrant-authright-text); }
+        .quadrant-libleft { background-color: var(--quadrant-libleft-bg); color: var(--quadrant-libleft-text); }
+        .quadrant-libright { background-color: var(--quadrant-libright-bg); color: var(--quadrant-libright-text); }
+
+
+        #ideologyDescriptionContainer, #influencesContainer { background-color: var(--bg-card); color: var(--text-secondary); }
+        .details-section h4, .sidebar-section h4, .theory-modal-section h4 { 
+            font-size: 1.1em; font-weight: 600; 
+            margin-top: 0.75rem; margin-bottom: 0.5rem; padding-bottom: 0.35rem; 
+            border-bottom: 1px solid var(--border-divider); 
+        }
+        #ideologyDescriptionContainer h4 {
+            color: var(--text-heading-sidebar); 
+            border-bottom-color: var(--border-heading-sidebar);
+        }
+        .theory-modal-section h4 { 
+            color: var(--text-heading-modal);
+            border-bottom-color: var(--text-heading-modal);
+        }
+
+        .details-section ul, .sidebar-section ul, .theory-modal-section ul { list-style-type: disc; margin-left: 1.5rem; font-size: 0.9em; }
+        .details-section li, .sidebar-section li, .theory-modal-section li { margin-bottom: 0.35rem; }
+        
+        #showInfluencesButton { background-color: var(--bg-button-sky); color: var(--text-button); }
+        #showInfluencesButton:hover { background-color: var(--bg-button-sky-hover); }
+        #retakeButton { background-color: var(--bg-button-yellow); color: var(--text-button); }
+        #retakeButton:hover { background-color: var(--bg-button-yellow-hover); }
+        #copyButton { background-color: var(--bg-button-indigo); color: var(--text-button); }
+        #copyButton:hover { background-color: var(--bg-button-indigo-hover); }
+        #downloadPdfButton { background-color: var(--bg-button-teal); color: var(--text-button); }
+        #downloadPdfButton:hover { background-color: var(--bg-button-teal-hover); }
+
+
+        .custom-radio { appearance: none; -webkit-appearance: none; width: 1.25em; height: 1.25em; border: 2px solid var(--custom-radio-border); border-radius: 50%; outline: none; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; margin-right: 0.5em; position: relative; top: 0.2em; }
+        .custom-radio:checked { background-color: var(--custom-radio-checked-bg); border-color: var(--custom-radio-checked-bg); }
+        .custom-radio:checked::before { content: ''; display: block; width: 0.6em; height: 0.6em; background-color: var(--custom-radio-checked-dot); border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .modal { transition: opacity 0.25s ease; }
+        .modal-active { overflow-x: hidden; overflow-y: auto; }
+        
+        #theoryModalBackdrop { background-color: rgba(0, 0, 0, 0.7); }
+        [data-theme="light"] #theoryModalBackdrop { background-color: rgba(50, 50, 50, 0.5); }
+        #theoryModal { background-color: var(--bg-modal); border: 1px solid var(--border-primary); }
+        #theoryModal h2.text-2xl { color: var(--text-heading-modal); } 
+        #theoryModalContent { max-height: 85vh; }
+        #closeTheoryModalButton { color: var(--text-muted); }
+        #closeTheoryModalButton:hover { color: var(--text-primary); }
+
+        .button-disabled { opacity: 0.5; cursor: not-allowed; }
+        .question-item { opacity: 0; transform: translateX(30px); transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out; display: none; position: absolute; width: 100%; min-height: 250px; }
+        .question-item.active { opacity: 1; transform: translateX(0); display: block; position: relative; }
+        .question-item.previous { transform: translateX(-30px); }
+        #questionsContainer { position: relative; overflow: hidden; min-height: 300px; }
+
+        #copyModal .bg-gray-800 { background-color: var(--bg-modal); border-color: var(--border-primary); }
+        #copyModal #modalMessage { color: var(--text-primary); }
+        #copyModal #closeModalButton { background-color: var(--bg-button-primary); color: var(--text-button); }
+        #copyModal #closeModalButton:hover { background-color: var(--bg-button-primary-hover); }
+
+        #ideologyResult[data-ideology-color="red"] { color: var(--text-heading-sidebar); }
+        #ideologyResult[data-ideology-color="yellow"] { color: var(--text-accent-yellow); } 
+        #ideologyResult[data-ideology-color="orange"] { color: var(--text-heading-sidebar-orange); }
+        #ideologyResult[data-ideology-color="lime"] { color: #84CC16; } 
+        [data-theme="light"] #ideologyResult[data-ideology-color="lime"] { color: #65A30D; }
+        #ideologyResult[data-ideology-color="blue"] { color: #60A5FA; } 
+        [data-theme="light"] #ideologyResult[data-ideology-color="blue"] { color: #2563EB; }
+        #ideologyResult[data-ideology-color="purple"] { color: var(--text-heading-modal); }
+        #ideologyResult[data-ideology-color="teal"] { color: #2DD4BF; } 
+        [data-theme="light"] #ideologyResult[data-ideology-color="teal"] { color: #0D9488; }
+        #ideologyResult[data-ideology-color="gray"] { color: var(--text-secondary); }
+
+    </style>
+</head>
+<body class="flex flex-col lg:flex-row min-h-screen"> 
+    <aside id="left-sidebar" class="custom-scrollbar w-full lg:w-1/5 xl:w-1/6 p-6 space-y-6 lg:h-screen lg:sticky lg:top-0 overflow-y-auto border-r flex-shrink-0 order-1 lg:order-1">
+        <div class="sticky-header-mobile sticky top-0 py-4 -mt-6 -mx-6 px-6 border-b lg:hidden z-10 flex justify-between items-center">
+             <h2 class="main-title-mobile text-2xl font-bold">Menu & Theory</h2>
+             <div class="theme-switch-wrapper flex items-center space-x-1">
+                <label class="theme-switch" for="themeToggleCheckboxMobile">
+                    <input type="checkbox" id="themeToggleCheckboxMobile" />
+                    <div class="slider round">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </div>
+                </label>
+                <span class="current-theme-label text-xs">Dark</span>
+            </div>
+        </div>
+        <div class="hidden lg:flex pt-2 items-center justify-between mb-8">
+            <h2 class="sidebar-title text-3xl font-bold">Political Compass</h2>
+            <div class="theme-switch-wrapper flex items-center space-x-1">
+                <label class="theme-switch" for="themeToggleCheckboxDesktop">
+                    <input type="checkbox" id="themeToggleCheckboxDesktop" />
+                    <div class="slider round">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </div>
+                </label>
+                <span class="current-theme-label text-xs">Dark</span>
+            </div>
+        </div>
+        
+        <nav class="space-y-8">
+            <section id="sidebarAbout" class="sidebar-section">
+                <h3>About This Test</h3>
+                <p>This Political Compass Test is designed to help you discover your political alignment, specifically through a materialist and Marxist lens.</p>
+                <p>It analyzes your views on economic systems, social structures, governance, and revolutionary theory to place you on a two-dimensional compass and provide an interpretation based on various Marxist schools of thought.</p>
+                <p class="text-xs" style="color: var(--text-muted);">Your responses are not stored or tracked.</p> 
+            </section>
+
+            <section id="socialismOverview" class="sidebar-section">
+                <h3>Socialism: A Materialist Overview</h3>
+                <p>From a Marxist perspective, socialism is not a mere collection of policies or an ideal state, but a historical stage of societal development emerging from the contradictions inherent in capitalism.</p>
+                <p class="sub-heading">Materialist Basis:</p>
+                <p>Socialism is understood through historical materialism, which posits that the material conditions of society (how humans produce and reproduce their means of existence) are fundamental. Capitalism, characterized by private ownership of the means of production and the exploitation of wage labor (extraction of surplus value), creates inherent class conflict between the bourgeoisie (owners) and the proletariat (workers).</p>
+                <p class="sub-heading">Dialectical Development:</p>
+                <p>Socialism is the dialectical negation of capitalism. It's a transitional period where the working class, having seized political power (the dictatorship of the proletariat), actively dismantles capitalist social relations and constructs new ones. This is a dynamic process, not a static utopia, aimed at resolving capitalism's contradictions.</p>
+                <p class="sub-heading">Core Principles (Lower Phase of Communism):</p>
+                <ul class="list-disc space-y-1 pl-5">
+                    <li><strong>Social Ownership:</strong> The means of production (factories, land, resources) are owned and controlled collectively by society, typically through a workers' state, rather than by private individuals for profit.</li>
+                    <li><strong>Production for Use:</strong> Economic activity is planned to meet human needs and societal goals, not driven by the anarchic pursuit of profit in a market.</li>
+                    <li><strong>Abolition of Exploitation:</strong> With social ownership, the systematic extraction of surplus value from workers by capitalists ceases.</li>
+                    <li><strong>Towards Classlessness:</strong> The aim is to eliminate class distinctions, leading to a society where "from each according to his ability, to each according to his work" is a guiding principle, eventually evolving towards "to each according to his need" in a higher phase of communism.</li>
+                </ul>
+                <p class="sub-heading">Distinguishing from Misconceptions:</p>
+                <ul class="list-disc space-y-1 pl-5">
+                    <li><strong>Welfare Capitalism/Social Democracy:</strong> These systems retain private ownership and capitalist exploitation, merely mitigating some of its effects through social programs. They do not fundamentally alter the mode of production or class power.</li>
+                    <li><strong>"Government doing stuff":</strong> State intervention alone is not socialism. The crucial factor is which class holds state power and in whose interest the economy is organized.</li>
+                    <li><strong>Reactionary Caricatures:</strong> Claims that socialism is "against human nature" ignore how "human nature" is shaped by social systems. Propaganda about inherent "inefficiency" or "totalitarianism" often conflates specific historical attempts (and their challenges/deformations) with the foundational goals of workers' emancipation and democratic control over economic life. The "dictatorship of the proletariat" refers to the class rule of the majority (workers) over the minority (former exploiters), a necessary measure to defend the revolution and build a new society, aiming for a higher form of democracy than bourgeois democracy allows.</li>
+                </ul>
+            </section>
+
+            <section id="sidebarResources" class="sidebar-section">
+                <h3>Resources & Theory</h3>
+                <ul class="space-y-2">
+                    <li><a href="https://www.marxists.org/" target="_blank" rel="noopener noreferrer">Marxists Internet Archive</a></li>
+                    <li><a href="https://www.marxists.org/archive/marx/works/1848/communist-manifesto/" target="_blank" rel="noopener noreferrer">The Communist Manifesto</a></li>
+                    <li><a href="https://www.marxists.org/archive/marx/works/1867-c1/" target="_blank" rel="noopener noreferrer">Das Kapital, Vol. I</a></li>
+                    <li><a href="https://www.marxists.org/archive/lenin/works/1917/staterev/" target="_blank" rel="noopener noreferrer">The State and Revolution (Lenin)</a></li>
+                    <li><a href="https://www.marxists.org/archive/luxemburg/1900/reform-revolution/" target="_blank" rel="noopener noreferrer">Reform or Revolution? (Luxemburg)</a></li>
+                    <li><a href="https://www.marxists.org/archive/mao/selected-works/volume-1/mswv1_17.htm" target="_blank" rel="noopener noreferrer">On Contradiction (Mao)</a></li>
+                    <li><a href="https://www.marxists.org/archive/trotsky/1936/revbet/" target="_blank" rel="noopener noreferrer">The Revolution Betrayed (Trotsky)</a></li>
+                    <li><a href="https://www.marxists.org/reference/archive/dimitrov/works/1935/08_02.htm" target="_blank" rel="noopener noreferrer">The Fascist Offensive (Dimitrov)</a></li>
+                </ul>
+            </section>
+            
+            <section id="sidebarFeatures" class="sidebar-section">
+                <h3>Additional Features</h3>
+                <p class="italic" style="color: var(--text-muted);">(More features coming soon!)</p>
+            </section>
+        </nav>
+    </aside>
+
+    <div id="main-quiz-area" class="custom-scrollbar flex-1 overflow-y-auto p-2 sm:p-4 order-2 lg:order-2 min-w-0 relative"> 
+        <div id="progressBarContainer" class="sticky top-0 left-0 w-full h-1 z-30 rounded hidden">
+            <div id="progressBarFill" class="h-full transition-all duration-300 ease-linear rounded"></div>
+        </div>
+
+        <div class="text-center my-4">
+            <button id="openTheoryModalButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-special);">
+                Theoretical Deep Dive: Bonapartism & Bourgeois Democracy
+            </button>
+        </div>
+
+        <div id="app" class="p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-5xl mx-auto my-8">
+            
+            <section id="startScreen" class="text-center py-8 sm:py-12">
+                <h1 class="text-4xl sm:text-5xl font-bold mb-6 tracking-tight">Political Compass Test</h1>
+                <p class="text-lg mb-3 max-w-2xl mx-auto leading-relaxed" style="color: var(--text-secondary);">Discover your political alignment through a materialist lens.</p>
+                <p class="text-md mb-10 max-w-2xl mx-auto" style="color: var(--text-muted);">This test consists of 30 questions. Answer them based on your genuine beliefs for the most accurate result. Your responses are not stored.</p>
+                
+                <div class="mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-semibold mb-8" style="color: var(--text-primary);">Understanding the Axes</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto text-left">
+                        <div class="axis-card p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-3">Economic Axis (Left ↔ Right)</h3>
+                            <p class="text-sm mb-2"><strong class="text-red-300">Left:</strong> Advocates for social ownership of the means of production, a planned economy, and the decommodification of essential goods and services.</p>
+                            <p class="text-sm"><strong class="text-blue-300">Right:</strong> Favors private ownership of the means of production, free markets, and the commodification of goods and services.</p>
+                        </div>
+                        <div class="axis-card p-6 rounded-lg shadow-lg">
+                            <h3 class="text-xl font-semibold mb-3">Social Axis (Libertarian ↔ Authoritarian)</h3>
+                            <p class="text-sm mb-2"><strong class="text-yellow-300">Libertarian:</strong> Prioritizes individual autonomy, decentralized power structures, and skepticism towards hierarchical state control and social regulation.</p>
+                            <p class="text-sm"><strong class="text-purple-300">Authoritarian:</strong> Values centralized authority, social order, and a significant role for the state in guiding society and enforcing norms.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="startButton" class="font-semibold py-3 px-10 text-lg rounded-lg shadow-md transition duration-150 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-primary);">
+                    Start Quiz
+                </button>
+            </section>
+
+            <section id="questionsScreen" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">Answer the Questions</h2>
+                <form id="quizForm">
+                    <div id="questionsContainer" class="relative min-h-[350px] sm:min-h-[300px]"> 
+                        </div>
+                    <div id="quizNavigation" class="mt-8 flex justify-between items-center">
+                        <button type="button" id="prevQuestionButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-secondary);">
+                            Previous
+                        </button>
+                        <span id="questionCounter" class="text-sm">Question 1 / 30</span>
+                        <button type="button" id="nextQuestionButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-green);">
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="resultsScreen" class="hidden text-center">
+                <h2 class="text-3xl font-bold mb-6">Your Political Compass Results</h2>
+                <div class="mb-6 p-4 rounded-lg shadow"> 
+                    <p class="text-lg"><strong>Economic Score (Left/Right):</strong> <span id="economicScoreResult" class="font-semibold"></span></p>
+                    <p class="text-lg"><strong>Social Score (Libertarian/Authoritarian):</strong> <span id="socialScoreResult" class="font-semibold"></span></p>
+                    <p class="text-lg mt-2"><strong>Marxist Interpretation:</strong> <span id="ideologyResult" class="font-semibold"></span></p>
+                </div>
+                <div class="relative w-full max-w-sm mx-auto mb-6 aspect-square">
+                    <canvas id="compassCanvas" class="rounded-lg shadow-md"></canvas> 
+                    <div class="absolute top-1 left-1 right-1/2 bottom-1/2 flex items-center justify-center quadrant-label quadrant-authleft rounded-tl-lg">Revolutionary State Socialism / Vanguardism</div>
+                    <div class="absolute top-1 right-1 left-1/2 bottom-1/2 flex items-center justify-center quadrant-label quadrant-authright rounded-tr-lg">Authoritarian Capitalism</div>
+                    <div class="absolute bottom-1 left-1 right-1/2 top-1/2 flex items-center justify-center quadrant-label quadrant-libleft rounded-bl-lg">Libertarian Communism / Anarchism</div>
+                    <div class="absolute bottom-1 right-1 left-1/2 top-1/2 flex items-center justify-center quadrant-label quadrant-libright rounded-br-lg">Right-Libertarianism</div>
+                </div>
+                <div id="ideologyDescriptionContainer" class="text-sm mb-8 p-4 rounded-lg shadow text-left details-section">
+                    </div>
+                <div class="my-6">
+                    <button id="showInfluencesButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-sky);">
+                        Show My Influencing Answers
+                    </button>
+                    <div id="influencesContainer" class="hidden mt-4 p-4 rounded-lg shadow text-left max-h-60 overflow-y-auto details-section custom-scrollbar">
+                        </div>
+                </div>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button id="retakeButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-yellow);">
+                        Retake Quiz
+                    </button>
+                    <button id="copyButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-indigo);">
+                        Copy Results Summary
+                    </button>
+                    <button id="downloadPdfButton" class="font-semibold py-2 px-6 rounded-lg shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-50" style="--tw-ring-color: var(--bg-button-teal);">
+                        Download Results PDF
+                    </button>
+                </div>
+            </section>
+        </div> 
+    </div>
+
+    <aside id="right-sidebar" class="custom-scrollbar w-full lg:w-1/5 xl:w-1/6 p-6 space-y-6 lg:h-screen lg:sticky lg:top-0 overflow-y-auto border-l flex-shrink-0 order-3 lg:order-3">
+        <div class="sticky-header-mobile sticky top-0 py-4 -mt-6 -mx-6 px-6 border-b lg:hidden z-10">
+             <h2 class="sidebar-title text-2xl font-bold text-center">Understanding Fascism</h2>
+        </div>
+         <div class="hidden lg:block pt-2">
+            <h2 class="sidebar-title text-2xl font-semibold mb-8 text-center">Understanding Fascism & Reaction</h2>
+        </div>
+
+        <section class="sidebar-section">
+            <h3>Core Fascistic Traits</h3>
+            <ul class="list-disc space-y-1 text-sm pl-5">
+                <li><strong>Extreme Nationalism:</strong> Often chauvinistic, believing in national superiority and a destined role.</li>
+                <li><strong>Authoritarianism:</strong> Rejection of democratic norms, embrace of dictatorial power and a strong leader.</li>
+                <li><strong>Militarism:</strong> Glorification of war, military virtues, and expansion.</li>
+                <li><strong>Anti-Democratic & Anti-Liberal:</strong> Opposition to parliamentary democracy, individual freedoms, and liberal values.</li>
+                <li><strong>Scapegoating:</strong> Blaming specific groups (ethnic, religious, political minorities) for societal problems.</li>
+                <li><strong>Cult of Personality:</strong> Focus on a charismatic leader seen as embodying the nation's will.</li>
+                <li><strong>Corporatism (Rhetoric):</strong> Claiming to unite classes for national good, often suppressing independent labor movements.</li>
+                <li><strong>Use of Violence & Paramilitarism:</strong> Political violence and paramilitary groups to suppress opposition.</li>
+                <li><strong>Palingenetic Ultranationalism:</strong> Belief in a national rebirth or regeneration from a perceived period of decline.</li>
+            </ul>
+        </section>
+
+        <section class="sidebar-section">
+            <h3>Historical Movements</h3>
+            <p>Key historical examples include:</p>
+            <ul class="list-disc space-y-1 text-sm pl-5">
+                <li>Fascist Italy under Benito Mussolini.</li>
+                <li>Nazi Germany under Adolf Hitler.</li>
+                <li>Falangist Spain under Francisco Franco (with distinct characteristics).</li>
+            </ul>
+            <p class="mt-2">These regimes, while varied, shared many of the core traits listed above, leading to immense suffering and global conflict.</p>
+        </section>
+
+        <section class="sidebar-section">
+            <h3>Modern Manifestations & Right Populism</h3>
+            <p>While direct replications of historical fascism are rare, "proto-fascistic" tendencies or elements can be observed in some modern far-right populist movements. These may include:</p>
+            <ul class="list-disc space-y-1 text-sm pl-5">
+                <li>Strongman leaders appealing to nationalist sentiment.</li>
+                <li>Anti-immigrant and xenophobic rhetoric.</li>
+                <li>Erosion of democratic institutions and norms.</li>
+                <li>Creation of "us vs. them" narratives.</li>
+                <li>Hostility towards critical media and academia.</li>
+                <li>Conspiracy theories and misinformation.</li>
+            </ul>
+            <p class="mt-2">It's crucial to analyze these movements critically, understanding their historical echoes while recognizing their contemporary specificities. Right-wing populism often employs some of these tactics without necessarily developing into full-blown fascism, but the overlaps warrant careful observation from a materialist perspective, particularly how they serve ruling class interests by dividing the working class.</p>
+        </section>
+
+        <section class="sidebar-section">
+            <h3>Resources on Fascism & Antisemitism</h3>
+            <ul class="space-y-2">
+                <li><a href="https://www.jewishvirtuallibrary.org/the-holocaust" target="_blank" rel="noopener noreferrer">The Holocaust (Jewish Virtual Library)</a></li>
+                <li><a href="https://www.jewishvirtuallibrary.org/the-nuremberg-laws" target="_blank" rel="noopener noreferrer">The Nuremberg Laws (Jewish Virtual Library)</a></li>
+                 <li><a href="https://www.jewishvirtuallibrary.org/adolf-hitler-table-of-contents" target="_blank" rel="noopener noreferrer">Adolf hitler Speeches (Jewish Virtual Library)</a></li>
+            </ul>
+            <p class="mt-2 text-xs" style="color: var(--text-muted);">These resources provide historical context and evidence, particularly regarding the antisemitic nature of Nazi fascism and its devastating consequences.</p>
+        </section>
+    </aside>
+
+    <div id="theoryModalBackdrop" class="fixed inset-0 z-40 items-center justify-center hidden modal-active">
+        <div id="theoryModal" class="rounded-xl shadow-2xl w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto relative transform transition-all duration-300 ease-out scale-95 opacity-0">
+            <div class="flex justify-between items-center p-4 border-b" style="border-bottom-color: var(--border-primary);">
+                <h2 class="text-2xl font-semibold">Theoretical Deep Dive</h2>
+                <button id="closeTheoryModalButton" class="text-3xl leading-none">&times;</button>
+            </div>
+            <div id="theoryModalContent" class="p-6 space-y-6 overflow-y-auto custom-scrollbar theory-modal-section">
+                <section>
+                    <h4>Bonapartism: A Marxist Analysis</h4>
+                    <p>Bonapartism, in Marxist theory, describes a situation where the executive arm of the state (often embodied by a single dictatorial figure) rises to a position of apparent autonomy from the directly warring classes in society. This typically occurs during periods of intense class struggle when neither the bourgeoisie nor the proletariat can establish undisputed hegemony, leading to a political stalemate.</p>
+                    <p class="sub-heading">Key Characteristics:</p>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Apparent Class Neutrality:</strong> The Bonapartist regime presents itself as standing above classes, acting in the "national interest." However, it ultimately serves to preserve the existing (usually capitalist) mode of production.</li>
+                        <li><strong>Reliance on Bureaucracy & Military:</strong> Lacking a firm class base of its own, it relies heavily on the state bureaucracy, the military, and police forces to maintain power.</li>
+                        <li><strong>Suppression of Independent Class Organization:</strong> Both working-class and sometimes bourgeois political organizations are suppressed or brought under state control.</li>
+                        <li><strong>Populist Demagoguery:</strong> Often employs rhetoric appealing to various sections of the population, particularly the peasantry or petty bourgeoisie, while undermining organized political movements.</li>
+                        <li><strong>Historical Context:</strong> Karl Marx famously analyzed this phenomenon in "The Eighteenth Brumaire of Louis Bonaparte," describing how Louis Bonaparte (Napoleon III) seized power in France.</li>
+                    </ul>
+                    <p class="sub-heading">Function:</p>
+                    <p>While appearing to rule independently, Bonapartism objectively functions to secure the conditions for capitalist accumulation when the bourgeoisie is too weak or divided to rule directly through parliamentary democracy. It's a form of exceptional state power.</p>
+                    <p class="mt-4"><a href="https://www.marxists.org/archive/marx/works/1852/18th-brumaire/" target="_blank" rel="noopener noreferrer">Read: The Eighteenth Brumaire of Louis Bonaparte (Marx)</a></p>
+                </section>
+                <hr class="my-6" style="border-color: var(--border-divider);">
+                <section>
+                    <h4>Bourgeois Democracy: A Marxist Critique</h4>
+                    <p>Bourgeois democracy is the form of state characteristic of developed capitalist societies. While it often includes formal democratic rights such as universal suffrage, freedom of speech, assembly, and the press, Marxists analyze it as a specific form of class rule – the dictatorship of the bourgeoisie.</p>
+                    <p class="sub-heading">Key Aspects of the Critique:</p>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Formal vs. Real Democracy:</strong> Bourgeois democracy provides formal equality before the law but masks real economic inequality and the power imbalances stemming from private ownership of the means of production. The wealthy elite (bourgeoisie) exert disproportionate influence over the political process through campaign finance, media ownership, lobbying, etc.</li>
+                        <li><strong>State as Instrument of Class Rule:</strong> The state (including its democratic institutions) is not a neutral arbiter but ultimately functions to protect and reproduce capitalist property relations and the interests of the ruling class. As Lenin elaborated in "State and Revolution," the state is an organ of class rule, an organ for the oppression of one class by another.</li>
+                        <li><strong>Limited Scope:</strong> Democratic decision-making is largely confined to the political sphere and does not extend to the economic sphere, where crucial decisions about production, investment, and resource allocation are made by private capitalists based on profit motives.</li>
+                        <li><strong>Illusion of Control:</strong> It can create an illusion that the working class has meaningful control over society through voting, thereby legitimizing capitalist rule and obscuring the underlying class antagonisms.</li>
+                    </ul>
+                    <p class="sub-heading">Revolutionary Perspective:</p>
+                    <p>Marxists argue that true democracy for the working majority (proletarian democracy or socialist democracy) can only be achieved by overthrowing the bourgeois state and establishing a workers' state (the dictatorship of the proletariat). This new state form would aim to extend democratic control over the economy and society, paving the way for a classless, communist society where the state itself eventually "withers away."</p>
+                    <p class="mt-4"><a href="https://www.marxists.org/archive/lenin/works/1917/staterev/" target="_blank" rel="noopener noreferrer">Read: State and Revolution (Lenin)</a></p>
+                    <p><a href="https://www.marxists.org/archive/marx/works/1848/communist-manifesto/ch02.htm" target="_blank" rel="noopener noreferrer">Read: Communist Manifesto, Ch II (Proletarians and Communists)</a></p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="copyModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 opacity-0 pointer-events-none">
+        <div class="p-6 rounded-lg shadow-xl text-center"> 
+            <p id="modalMessage">Results copied to clipboard!</p>
+            <button id="closeModalButton" class="mt-4 font-semibold py-2 px-4 rounded-md">OK</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { jsPDF } = window.jspdf;
+
+            // --- DOM Element & State Variable Declarations (Moved to top) ---
+            const startScreen = document.getElementById('startScreen');
+            const questionsScreen = document.getElementById('questionsScreen');
+            const resultsScreen = document.getElementById('resultsScreen');
+            const startButton = document.getElementById('startButton');
+            const quizForm = document.getElementById('quizForm');
+            const questionsContainer = document.getElementById('questionsContainer');
+            const economicScoreResult = document.getElementById('economicScoreResult');
+            const socialScoreResult = document.getElementById('socialScoreResult');
+            const ideologyResult = document.getElementById('ideologyResult');
+            const ideologyDescriptionContainer = document.getElementById('ideologyDescriptionContainer');
+            const compassCanvas = document.getElementById('compassCanvas');
+            const retakeButton = document.getElementById('retakeButton');
+            const copyButton = document.getElementById('copyButton');
+            const downloadPdfButton = document.getElementById('downloadPdfButton'); 
+            const showInfluencesButton = document.getElementById('showInfluencesButton');
+            const influencesContainer = document.getElementById('influencesContainer');
+            
+            const copyModal = document.getElementById('copyModal');
+            const closeModalButton = document.getElementById('closeModalButton');
+            const modalMessage = document.getElementById('modalMessage');
+
+            const theoryModalBackdrop = document.getElementById('theoryModalBackdrop');
+            const theoryModal = document.getElementById('theoryModal');
+            const openTheoryModalButton = document.getElementById('openTheoryModalButton');
+            const closeTheoryModalButton = document.getElementById('closeTheoryModalButton');
+
+            let currentQuestionIndex = 0;
+            let questionElements = []; 
+            const progressBarContainer = document.getElementById('progressBarContainer');
+            const progressBarFill = document.getElementById('progressBarFill');
+            const prevQuestionButton = document.getElementById('prevQuestionButton');
+            const nextQuestionButton = document.getElementById('nextQuestionButton');
+            const questionCounter = document.getElementById('questionCounter');
+
+            let userAnswers = {}; 
+            let answerContributions = []; 
+            let finalEconomicScore = 0;
+            let finalSocialScore = 0;
+            let subScores = { ml: 0, mao: 0, trotsky: 0 }; 
+
+            const questions = [
+                { id: 1, domain: "Economics", text: "The economy should be primarily run by the free market, with minimal government intervention.", effect: { economic: 2, social: 0 } },
+                { id: 2, domain: "Economics", text: "Governments should implement significant wealth redistribution through progressive taxation and social programs.", effect: { economic: -2, social: 0 } },
+                { id: 3, domain: "Economics", text: "Key industries, such as energy, healthcare, and transportation, are better managed under public ownership or heavy regulation.", effect: { economic: -2, social: 0 } },
+                { id: 4, domain: "Economics", text: "Strong trade unions are generally an obstacle to economic growth and efficiency.", effect: { economic: 1.5, social: 0 } },
+                { id: 5, domain: "Economics", text: "Economic inequality is an acceptable, or even motivating, outcome of a competitive market system.", effect: { economic: 2, social: 0 } },
+                { id: 6, domain: "Social & Civil Rights", text: "Freedom of speech should extend to all ideas, even those considered offensive or hateful by many.", effect: { economic: 0, social: -2 } },
+                { id: 7, domain: "Social & Civil Rights", text: "Law enforcement agencies should have more power (e.g., surveillance, stop-and-search) to maintain public order and safety.", effect: { economic: 0, social: 2 } },
+                { id: 8, domain: "Social & Civil Rights", text: "Censorship of media (internet, arts, press) is sometimes necessary to protect societal values or national security.", effect: { economic: 0, social: 2 } },
+                { id: 9, domain: "Social & Civil Rights", text: "An individual's right to privacy is more important than the state's need to monitor citizens for security purposes.", effect: { economic: 0, social: -2 } },
+                { id: 10, domain: "Social & Civil Rights", text: "Mass protests and civil disobedience, even if disruptive, are legitimate and vital expressions in a democracy.", effect: { economic: 0, social: -1.5 } },
+                { id: 11, domain: "Governance & Authority", text: "The government should be significantly smaller, with fewer responsibilities and less intervention in citizens' lives.", effect: { economic: 0.5, social: -1.5 } }, 
+                { id: 12, domain: "Governance & Authority", text: "A strong military and an assertive foreign policy are essential for our nation's security and global influence.", effect: { economic: 0, social: 1.5 } },
+                { id: 13, domain: "Governance & Authority", text: "Important national decisions are best made by elected representatives rather than through direct popular votes (referendums) on every major issue.", effect: { economic: 0, social: 0.5 } }, 
+                { id: 14, domain: "Governance & Authority", text: "It is acceptable for the state to temporarily suspend some individual liberties during times of national crisis or war.", effect: { economic: 0, social: 2 } },
+                { id: 15, domain: "Governance & Authority", text: "Maintaining social order and authority is more important than guaranteeing absolute individual freedom if the two conflict.", effect: { economic: 0, social: 2 } },
+                { id: 16, domain: "Culture & Identity", text: "Our nation's distinct culture and heritage are paramount and should be actively protected from foreign influences.", effect: { economic: 0, social: 1.5 } }, 
+                { id: 17, domain: "Culture & Identity", text: "Immigration policies should be more restrictive to protect national identity and ensure social cohesion.", effect: { economic: 0.5, social: 1 } }, 
+                { id: 18, domain: "Culture & Identity", text: "A diverse society, with many different cultures and lifestyles, is stronger and more vibrant.", effect: { economic: 0, social: -2 } }, 
+                { id: 19, domain: "Culture & Identity", text: "Religious values should play a significant role in shaping laws and public policy.", effect: { economic: 0, social: 1.5 } }, 
+                { id: 20, domain: "Culture & Identity", text: "Traditional family structures and gender roles are important for a stable and healthy society.", effect: { economic: 0, social: 1.5 } }, 
+                { id: 21, domain: "International Relations", text: "Our nation should actively intervene in foreign conflicts, sometimes militarily, to protect its interests or promote its values.", effect: { economic: 0.5, social: 1.5 } }, 
+                { id: 22, domain: "International Relations", text: "International cooperation and global governance bodies (e.g., UN) are essential for solving major world problems like climate change and pandemics.", effect: { economic: -0.5, social: -1 } }, 
+                { id: 23, domain: "International Relations", text: "Free trade agreements and economic globalization generally benefit all participating countries in the long run.", effect: { economic: 1.5, social: 0 } }, 
+                { id: 24, domain: "International Relations", text: "Our nation has a right and duty to prioritize its own citizens and national interests above all else in international affairs.", effect: { economic: 0.5, social: 1 } }, 
+                { id: 25, domain: "International Relations", text: "Military spending should be significantly reduced, and those resources reallocated to domestic social programs or international development aid.", effect: { economic: -1.5, social: -1 } }, 
+                { id: 26, domain: "Revolutionary Theory & Practice", text: "A disciplined vanguard party, composed of the most class-conscious elements, is essential to lead the proletariat to revolution and guide the construction of socialism.", effect: { economic: -0.5, social: 1, subEffect: { ml: 2, trotsky: 1 } } },
+                { id: 27, domain: "Revolutionary Theory & Practice", text: "The primary revolutionary force in the modern world often lies with the peasantry and oppressed peoples of the 'Third World' rather than solely the industrial proletariat of advanced capitalist countries.", effect: { economic: -0.5, social: 0, subEffect: { mao: 2 } } },
+                { id: 28, domain: "Revolutionary Theory & Practice", text: "Socialist revolution must be international and permanent; a 'socialism in one country' approach is ultimately unsustainable and prone to bureaucratic degeneration.", effect: { economic: -0.5, social: -0.5, subEffect: { trotsky: 2, ml: -1 } } },
+                { id: 29, domain: "Revolutionary Theory & Practice", text: "The state, even a workers' state, is an instrument of class rule and must eventually 'wither away' as class distinctions disappear in a communist society.", effect: { economic: -0.5, social: -1, subEffect: { ml: 1, mao: 1, trotsky: 1 } } },
+                { id: 30, domain: "Revolutionary Theory & Practice", text: "A revolutionary overthrow of the capitalist state is necessary for the transition to socialism; gradual reforms within the existing bourgeois democratic framework are insufficient.", effect: { economic: -1.5, social: 0.5, subEffect: { ml: 2, mao: 2, trotsky: 2 } } }
+            ];
+            const answerValues = { "strongly-agree": 2, "agree": 1, "neutral": 0, "disagree": -1, "strongly-disagree": -2 };
+            const answerLabels = { "strongly-agree": "Strongly Agree", "agree": "Agree", "neutral": "Neutral", "disagree": "Disagree", "strongly-disagree": "Strongly Disagree" };
+
+
+            // --- Theme Toggle Logic ---
+            const themeToggleDesktop = document.getElementById('themeToggleCheckboxDesktop');
+            const themeToggleMobile = document.getElementById('themeToggleCheckboxMobile');
+            const body = document.body;
+            const currentThemeLabels = document.querySelectorAll('.current-theme-label');
+            function applyTheme(theme) {
+                body.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                const isLight = theme === 'light';
+                if (themeToggleDesktop) themeToggleDesktop.checked = isLight;
+                if (themeToggleMobile) themeToggleMobile.checked = isLight;
+                currentThemeLabels.forEach(label => {
+                    if (label) label.textContent = isLight ? 'Light' : 'Dark';
+                });
+                document.querySelectorAll('.theme-switch').forEach(ts => {
+                    const sunIcon = ts.querySelector('.slider .sun-icon');
+                    const moonIcon = ts.querySelector('.slider .moon-icon');
+                    if (sunIcon && moonIcon) {
+                        sunIcon.style.display = isLight ? 'inline' : 'none';
+                        moonIcon.style.display = isLight ? 'none' : 'inline';
+                    }
+                });
+                if (resultsScreen && !resultsScreen.classList.contains('hidden') && compassCanvas) {
+                    drawCompass(finalEconomicScore, finalSocialScore);
+                }
+            }
+            function toggleThemeHandler(event) {
+                 applyTheme(event.target.checked ? 'light' : 'dark');
+            }
+            if (themeToggleDesktop) themeToggleDesktop.addEventListener('change', toggleThemeHandler);
+            if (themeToggleMobile) themeToggleMobile.addEventListener('change', toggleThemeHandler);
+            const savedTheme = localStorage.getItem('theme') || 'dark'; 
+            applyTheme(savedTheme);
+
+
+            // --- Quiz Logic Functions ---
+            function initializeQuestions() {
+                questionsContainer.innerHTML = ''; 
+                questionElements = []; 
+                let currentDomain = "";
+                questions.forEach((q, index) => {
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'question-item p-4 rounded-lg shadow-sm';
+                    questionElement.id = `question-item-${index}`;
+                    let domainHeaderHTML = "";
+                    if (index === 0 || questions[index -1].domain !== q.domain) {
+                         domainHeaderHTML = `<h3 class="text-xl font-semibold mb-4 ${index > 0 ? 'pt-4 border-t' : ''}" style="border-top-color: var(--border-divider);">${q.domain}</h3>`;
+                    }
+                    questionElement.innerHTML = `
+                        ${domainHeaderHTML}
+                        <p class="font-semibold mb-3 text-lg">${index + 1}. ${q.text}</p> 
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-3 gap-y-2 items-center">
+                            ${Object.keys(answerValues).map(value => `
+                                <label class="flex items-center text-sm cursor-pointer p-2 rounded-md transition-colors duration-150"> 
+                                    <input type="radio" name="q${q.id}" value="${value}" class="custom-radio" required>
+                                    <span class="ml-1.5">${answerLabels[value]}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                    questionsContainer.appendChild(questionElement);
+                    questionElements.push(questionElement);
+                });
+            }
+            
+            function displayCurrentQuestion(previousIndex = -1) {
+                questionElements.forEach((el, idx) => {
+                    if (idx === currentQuestionIndex) {
+                        el.classList.remove('previous'); 
+                        el.style.display = 'block'; 
+                        setTimeout(() => el.classList.add('active'), 10); 
+                    } else if (idx === previousIndex) {
+                        el.classList.remove('active');
+                        el.classList.add('previous'); 
+                        setTimeout(() => { el.style.display = 'none'; el.classList.remove('previous'); }, 400); 
+                    } else {
+                        el.style.display = 'none';
+                        el.classList.remove('active', 'previous');
+                    }
+                });
+                updateProgressBar();
+                updateNavigationControls();
+            }
+
+            function updateProgressBar() {
+                const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+                progressBarFill.style.width = `${progressPercentage}%`;
+                questionCounter.textContent = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+            }
+
+            function updateNavigationControls() {
+                prevQuestionButton.disabled = currentQuestionIndex === 0;
+                prevQuestionButton.classList.toggle('button-disabled', currentQuestionIndex === 0);
+                if (currentQuestionIndex === questions.length - 1) {
+                    nextQuestionButton.textContent = 'Show My Results';
+                    nextQuestionButton.classList.add('show-results'); 
+                } else {
+                    nextQuestionButton.textContent = 'Next';
+                    nextQuestionButton.classList.remove('show-results');
+                }
+            }
+
+            function calculateResults() {
+                let econScore = 0;
+                let socScore = 0;
+                subScores = { ml: 0, mao: 0, trotsky: 0 }; 
+                userAnswers = {}; 
+                answerContributions = []; 
+                questions.forEach(q => {
+                    const selectedAnswerKey = quizForm.elements[`q${q.id}`]?.value;
+                    if (selectedAnswerKey) {
+                        userAnswers[`q${q.id}`] = selectedAnswerKey; 
+                        const multiplier = answerValues[selectedAnswerKey];
+                        const currentEconEffect = (q.effect.economic || 0) * multiplier;
+                        const currentSocEffect = (q.effect.social || 0) * multiplier;
+                        econScore += currentEconEffect;
+                        socScore += currentSocEffect;
+                        if (q.effect.subEffect) {
+                            if (q.effect.subEffect.ml) subScores.ml += q.effect.subEffect.ml * multiplier;
+                            if (q.effect.subEffect.mao) subScores.mao += q.effect.subEffect.mao * multiplier;
+                            if (q.effect.subEffect.trotsky) subScores.trotsky += q.effect.subEffect.trotsky * multiplier;
+                        }
+                        answerContributions.push({ id: q.id, text: q.text, answer: answerLabels[selectedAnswerKey], econEffect: currentEconEffect, socEffect: currentSocEffect });
+                    }
+                });
+                const scalingFactor = questions.length / 11; 
+                finalEconomicScore = Math.max(-10, Math.min(10, econScore / scalingFactor));
+                finalSocialScore = Math.max(-10, Math.min(10, socScore / scalingFactor));
+                economicScoreResult.textContent = finalEconomicScore.toFixed(1);
+                socialScoreResult.textContent = finalSocialScore.toFixed(1);
+                const ideology = getIdeology(finalEconomicScore, finalSocialScore, subScores);
+                ideologyResult.textContent = ideology.name;
+                ideologyResult.setAttribute('data-ideology-color', ideology.colorName);
+
+                let fullDescriptionHTML = ideology.description; 
+                if (ideology.historicalFigures && ideology.historicalFigures.length > 0) {
+                    fullDescriptionHTML += `<h4>Historical Figures & Movements:</h4><ul>${ideology.historicalFigures.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                }
+                if (ideology.furtherReading && ideology.furtherReading.length > 0) {
+                    fullDescriptionHTML += `<h4>Further Reading:</h4><ul>${ideology.furtherReading.map(item => `<li>${item}</li>`).join('')}</ul>`;
+                }
+                ideologyDescriptionContainer.innerHTML = fullDescriptionHTML;
+                drawCompass(finalEconomicScore, finalSocialScore);
+                influencesContainer.classList.add('hidden'); 
+            }
+
+            function getIdeology(econ, soc, currentSubScores) {
+                const econStrongLeft = -5, econModerateLeft = -1, socStrongAuth = 3, socModerateAuth = 1, socStrongLib = -3, socModerateLib = -1;
+                let result = { 
+                    name: "Undetermined", 
+                    description: "<p>Your position is nuanced and doesn't fit neatly into predefined categories with the current model. This could indicate centrism, a unique blend of views, or that the questions didn't fully capture your perspective.</p>", 
+                    colorName: "gray", 
+                    historicalFigures: [], 
+                    furtherReading: [] 
+                };
+
+                if (econ < econStrongLeft) { 
+                    if (soc > socModerateAuth) { 
+                        result.name = "Revolutionary State Socialism";
+                        result.colorName = "red";
+                        result.description = `<p><strong>Tendency:</strong> General alignment with approaches prioritizing a strong workers' state to manage the transition to communism, often involving a vanguard party.</p>`;
+                        result.historicalFigures = ["States like the USSR (early to mid period), Eastern Bloc countries."];
+                        result.furtherReading = ["Lenin - 'State and Revolution'", "Bukharin & Preobrazhensky - 'The ABC of Communism'"];
+                        
+                        let subTendencyName = ""; 
+                        const subScoreThreshold = 2; 
+                        if (currentSubScores.ml > currentSubScores.mao && currentSubScores.ml > currentSubScores.trotsky && currentSubScores.ml > subScoreThreshold) {
+                            subTendencyName = "Marxism-Leninism";
+                            result.description += `<p class="mt-1"><strong>Specific Lean:</strong> Your answers suggest a strong alignment with <strong>Marxism-Leninism</strong>, emphasizing a disciplined vanguard party, democratic centralism, and the dictatorship of the proletariat to build socialism and defend against counter-revolution.</p>`;
+                            result.historicalFigures.unshift("Vladimir Lenin, Joseph Stalin (controversial), Ho Chi Minh, Fidel Castro."); 
+                            result.furtherReading.unshift("Stalin - 'Foundations of Leninism'");
+                        } else if (currentSubScores.mao > currentSubScores.ml && currentSubScores.mao > currentSubScores.trotsky && currentSubScores.mao > subScoreThreshold) {
+                            subTendencyName = "Maoism";
+                            result.description += `<p class="mt-1"><strong>Specific Lean:</strong> Your answers suggest an alignment with <strong>Maoism</strong>, emphasizing the role of the peasantry in revolution (especially in agrarian societies), protracted people's war, and the concept of cultural revolution to prevent capitalist restoration.</p>`;
+                            result.historicalFigures.unshift("Mao Zedong, Shining Path (Peru - controversial), Naxalite movements (India).");
+                            result.furtherReading.unshift("Mao Zedong - 'Quotations from Chairman Mao Tse-tung' (Little Red Book), 'On Contradiction'");
+                        } else if (currentSubScores.trotsky > currentSubScores.ml && currentSubScores.trotsky > currentSubScores.mao && currentSubScores.trotsky > subScoreThreshold) {
+                            subTendencyName = "Trotskyism";
+                            result.description += `<p class="mt-1"><strong>Specific Lean:</strong> Your answers suggest an alignment with <strong>Trotskyism</strong>, emphasizing permanent revolution, internationalism, workers' democracy, and a critique of Stalinism as a bureaucratic degeneration of the workers' state.</p>`;
+                            result.historicalFigures.unshift("Leon Trotsky, Fourth International.");
+                            result.furtherReading.unshift("Trotsky - 'The Revolution Betrayed', 'Permanent Revolution'");
+                        }
+                        if(subTendencyName) result.name = subTendencyName; 
+                    } else if (soc < socModerateLib) { 
+                        result = { 
+                            name: "Libertarian Communism / Anarcho-Syndicalism", 
+                            colorName: "yellow", 
+                            description: `<p><strong>Tendency:</strong> Reflects anarchist, syndicalist, or council communist thought.</p><p class="mt-2"><strong>Core Ideas:</strong> Seeks the abolition of both capitalism and the state, envisioning a society based on free association, decentralized workers' councils or syndicates, and direct democratic control over production and community affairs. Rejects hierarchical state structures in favor of horizontal organization.</p>`, 
+                            historicalFigures: ["Mikhail Bakunin, Peter Kropotkin, Nestor Makhno (Free Territory in Ukraine)", "Spanish Revolution (CNT-FAI)."], 
+                            furtherReading: ["Kropotkin - 'The Conquest of Bread'", "Rudolf Rocker - 'Anarcho-Syndicalism: Theory and Practice'"] 
+                        };
+                    } else { 
+                        result = { 
+                            name: "Council Communism / Left-Wing Marxism", 
+                            colorName: "orange", 
+                            description: `<p><strong>Tendency:</strong> Emphasizes workers' self-emancipation through councils (soviets).</p><p class="mt-2"><strong>Core Ideas:</strong> Focuses on workers' councils as the organs of revolutionary power and the basis for a post-capitalist society. Often critical of party-led vanguardism and state centralism, advocating for direct, democratic control by the proletariat over the means of production and societal organization.</p>`, 
+                            historicalFigures: ["Anton Pannekoek, Herman Gorter, Rosa Luxemburg (elements of councilism).", "German Revolution (1918-19, workers' councils)."], 
+                            furtherReading: ["Pannekoek - 'Workers' Councils'", "Serge Bricianer - 'Pannekoek and the Workers' Councils'"] 
+                        };
+                    }
+                } else if (econ < econModerateLeft) { 
+                    result = { 
+                        name: "Reformist Socialism / Social Democracy (Marxist Critique)", 
+                        colorName: "lime", 
+                        description: `<p><strong>Tendency:</strong> Views typical of social democratic or democratic socialist parties operating within capitalism.</p><p class="mt-2"><strong>Marxist Critique:</strong> From a revolutionary Marxist perspective, these ideologies seek to ameliorate the contradictions of capitalism through reforms enacted by the bourgeois state (e.g., welfare programs, regulations). While potentially achieving some material gains for the working class, they do not challenge the fundamental basis of capitalist exploitation and ultimately serve to stabilize the capitalist system rather than overthrow it.</p>`, 
+                        historicalFigures: ["Bernie Sanders (US), Jeremy Corbyn (UK - aspects)", "Nordic model countries (from a critical perspective)."], 
+                        furtherReading: ["Rosa Luxemburg - 'Reform or Revolution?'", "Ralph Miliband - 'The State in Capitalist Society'"] 
+                    };
+                } else { 
+                    if (soc > socStrongAuth) { 
+                        result = { 
+                            name: "Authoritarian Capitalism / Fascism (Marxist Critique)", 
+                            colorName: "blue", 
+                            description: `<p><strong>Tendency:</strong> Represents highly repressive capitalist states, potentially with fascistic characteristics.</p><p class="mt-2"><strong>Marxist Critique:</strong> This signifies a capitalist system maintained by an overtly authoritarian and coercive state apparatus. It often involves the suppression of labor movements, extreme nationalism, and the fusion of state power with dominant sections of the capitalist class to ensure capital accumulation through force and control. It is an extreme form of bourgeois rule.</p>`, 
+                            historicalFigures: ["Nazi Germany, Fascist Italy (historical examples).", "Pinochet's Chile."], 
+                            furtherReading: ["Georgi Dimitrov - 'The Fascist Offensive and the Tasks of the Communist International'", "Nicos Poulantzas - 'Fascism and Dictatorship'"] 
+                        };
+                    } else if (soc < socStrongLib) { 
+                        result = { 
+                            name: "Right-Libertarianism / Anarcho-Capitalism (Marxist Critique)", 
+                            colorName: "purple", 
+                            description: `<p><strong>Tendency:</strong> Advocates for minimal or no state and radical free markets.</p><p class="mt-2"><strong>Marxist Critique:</strong> This ideology champions the rights of private property and free markets to an extreme, advocating for the privatization of all societal functions. From a Marxist perspective, this is an ideological mystification that ignores inherent class power and exploitation, ultimately serving to entrench the power of capital under the guise of individual freedom.</p>`, 
+                            historicalFigures: ["Murray Rothbard, Ayn Rand (objectivism - related)."], 
+                            furtherReading: ["Karl Marx - 'Critique of the Gotha Program' (for critique of bourgeois rights)", "Ellen Meiksins Wood - 'The Origin of Capitalism'"] 
+                        };
+                    } else { 
+                        result = { 
+                            name: "Mainstream Bourgeois Democracy / Liberalism (Marxist Critique)", 
+                            colorName: "teal", 
+                            description: `<p><strong>Tendency:</strong> Typical political framework of advanced capitalist societies.</p><p class="mt-2"><strong>Marxist Critique:</strong> Characterized by formal democratic rights (voting, free speech within limits) but operates within a system where economic power, and thus significant political influence, remains concentrated in the hands of the capitalist class. The state, while appearing neutral, ultimately functions to protect and reproduce the capitalist mode of production and bourgeois property relations.</p>`, 
+                            historicalFigures: ["Most Western 'democracies'.", "Keynesianism, Neoliberalism (as dominant economic policies within this framework)."], 
+                            furtherReading: ["Lenin - 'Imperialism, the Highest Stage of Capitalism'", "Antonio Gramsci - 'Selections from the Prison Notebooks' (on hegemony)"] 
+                        };
+                    }
+                }
+                return result;
+            }
+
+            function drawCompass(econScore, socScore) {
+                const ctx = compassCanvas.getContext('2d');
+                const canvasParentWidth = compassCanvas.parentElement.clientWidth;
+                const canvasSize = Math.min(canvasParentWidth, 360); 
+                compassCanvas.width = canvasSize; compassCanvas.height = canvasSize;
+                const padding = canvasSize * 0.1, chartSize = canvasSize - 2 * padding, halfChartSize = chartSize / 2;
+                const originX = padding + halfChartSize, originY = padding + halfChartSize;
+                ctx.clearRect(0, 0, canvasSize, canvasSize); 
+                const styles = getComputedStyle(document.documentElement);
+                ctx.fillStyle = styles.getPropertyValue('--quadrant-authleft-bg').trim(); ctx.fillRect(padding, padding, halfChartSize, halfChartSize);
+                ctx.fillStyle = styles.getPropertyValue('--quadrant-authright-bg').trim(); ctx.fillRect(originX, padding, halfChartSize, halfChartSize);
+                ctx.fillStyle = styles.getPropertyValue('--quadrant-libleft-bg').trim(); ctx.fillRect(padding, originY, halfChartSize, halfChartSize);
+                ctx.fillStyle = styles.getPropertyValue('--quadrant-libright-bg').trim(); ctx.fillRect(originX, originY, halfChartSize, halfChartSize);
+                ctx.beginPath(); ctx.strokeStyle = styles.getPropertyValue('--text-muted').trim(); ctx.lineWidth = 2;
+                ctx.moveTo(padding, originY); ctx.lineTo(canvasSize - padding, originY); 
+                ctx.moveTo(originX, padding); ctx.lineTo(originX, canvasSize - padding); ctx.stroke();
+                ctx.fillStyle = styles.getPropertyValue('--text-primary').trim(); ctx.font = `${canvasSize * 0.03}px Inter`; 
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText("Economic Left (-10)", padding + (canvasSize * 0.08), originY + canvasSize * 0.05); 
+                ctx.fillText("Economic Right (+10)", canvasSize - padding - (canvasSize * 0.08), originY + canvasSize * 0.05);
+                ctx.save(); ctx.translate(originX, padding + (canvasSize * 0.05)); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'right'; ctx.fillText("Authoritarian (+10)", 0, 0); ctx.restore(); 
+                ctx.save(); ctx.translate(originX, canvasSize - padding - (canvasSize * 0.05)); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'left'; ctx.fillText("Libertarian (-10)", 0, 0); ctx.restore();
+                ctx.lineWidth = 1; ctx.strokeStyle = styles.getPropertyValue('--border-divider').trim();
+                const numTicks = 5; 
+                for (let i = -numTicks; i <= numTicks; i++) {
+                    if (i === 0) continue; 
+                    const tickVal = i * (10 / numTicks); 
+                    const xTickPos = originX + (tickVal / 10) * halfChartSize;
+                    ctx.beginPath(); ctx.moveTo(xTickPos, originY - canvasSize*0.01); ctx.lineTo(xTickPos, originY + canvasSize*0.01); ctx.stroke();
+                    if (tickVal !== 0 && Math.abs(tickVal) % (10/numTicks*2) === 0) ctx.fillText(tickVal.toString(), xTickPos, originY - canvasSize*0.035); 
+                    const yTickPos = originY - (tickVal / 10) * halfChartSize; 
+                    ctx.beginPath(); ctx.moveTo(originX - canvasSize*0.01, yTickPos); ctx.lineTo(originX + canvasSize*0.01, yTickPos); ctx.stroke();
+                    if (tickVal !== 0 && Math.abs(tickVal) % (10/numTicks*2) === 0) ctx.fillText(tickVal.toString(), originX + canvasSize*0.045, yTickPos); 
+                }
+                const resultX = originX + (econScore / 10) * halfChartSize;
+                const resultY = originY - (socScore / 10) * halfChartSize; 
+                ctx.beginPath(); ctx.arc(resultX, resultY, canvasSize * 0.022, 0, 2 * Math.PI, false); 
+                ctx.fillStyle = styles.getPropertyValue('--text-accent-yellow').trim(); ctx.fill();
+                ctx.lineWidth = canvasSize * 0.008; 
+                const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+                ctx.strokeStyle = currentTheme === 'light' ? styles.getPropertyValue('--text-primary').trim() : '#EAB308'; 
+                ctx.stroke();
+            }
+
+            function displayInfluences() {
+                influencesContainer.innerHTML = ''; 
+                if (answerContributions.length === 0) { influencesContainer.innerHTML = '<p>No answers recorded yet.</p>'; influencesContainer.classList.remove('hidden'); return; }
+                const sortedInfluences = [...answerContributions].sort((a, b) => (Math.abs(b.econEffect) + Math.abs(b.socEffect)) - (Math.abs(a.econEffect) + Math.abs(a.socEffect)));
+                let html = '<h4>Top Influencing Answers:</h4><ul>';
+                sortedInfluences.slice(0, 7).forEach(item => { 
+                    html += `<li class="mb-2"><strong>Q:</strong> ${item.text}<br/><span class="text-sm"><strong>Your Answer:</strong> ${item.answer}</span><br/><span class="text-sm">Effect: Econ ${item.econEffect.toFixed(1)}, Soc ${item.socEffect.toFixed(1)}</span></li>`;
+                });
+                html += '</ul>'; influencesContainer.innerHTML = html; influencesContainer.classList.remove('hidden');
+            }
+            
+            function showCopyModal(message) { modalMessage.textContent = message; copyModal.classList.remove('opacity-0', 'pointer-events-none'); copyModal.classList.add('opacity-100', 'modal-active'); }
+            function hideCopyModal() { copyModal.classList.add('opacity-0', 'pointer-events-none'); copyModal.classList.remove('opacity-100', 'modal-active'); }
+            function openTheoryModal() { theoryModalBackdrop.classList.remove('hidden'); theoryModalBackdrop.classList.add('flex'); setTimeout(() => { theoryModal.classList.remove('scale-95', 'opacity-0'); theoryModal.classList.add('scale-100', 'opacity-100'); }, 20); document.body.style.overflow = 'hidden'; }
+            function closeTheoryModal() { theoryModal.classList.add('scale-95', 'opacity-0'); theoryModal.classList.remove('scale-100', 'opacity-100'); setTimeout(() => { theoryModalBackdrop.classList.add('hidden'); theoryModalBackdrop.classList.remove('flex'); document.body.style.overflow = ''; }, 300); }
+
+            async function generatePDF() {
+                const pdfButton = document.getElementById('downloadPdfButton');
+                pdfButton.textContent = 'Generating PDF...'; pdfButton.classList.add('button-disabled'); pdfButton.disabled = true;
+                
+                const { jsPDF } = window.jspdf; // Ensure jsPDF is correctly referenced
+                const doc = new jsPDF();
+                
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const margin = 15;
+                let yPos = margin; 
+                
+                const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+                const pdfTextColor = currentTheme === 'light' ? "#1F2937" : "#374151"; // Darker text for light bg
+                const pdfAccentColor = currentTheme === 'light' ? "#C53030" : "#EF4444";
+                const pdfMutedColor = currentTheme === 'light' ? "#4B5563" : "#9CA3AF"; // Adjusted muted color for light
+                const pdfCanvasBg = currentTheme === 'light' ? "#FFFFFF" : "#374151"; // Canvas bg for PDF
+
+                // Optional: Add a light gray background to the PDF page for debugging visibility
+                // doc.setFillColor(240, 240, 240); // Light gray
+                // doc.rect(0, 0, pageWidth, pageHeight, 'F'); // Fill the page
+
+                doc.setFontSize(22); doc.setTextColor(pdfAccentColor); 
+                doc.text("Political Compass Results", pageWidth / 2, yPos, { align: 'center' }); 
+                yPos += 15;
+
+                doc.setFontSize(12); doc.setTextColor(pdfTextColor); 
+                const resultsText = [
+                    `Economic Score (Left/Right): ${finalEconomicScore.toFixed(1)}`, 
+                    `Social Score (Libertarian/Authoritarian): ${finalSocialScore.toFixed(1)}`, 
+                    `Marxist Interpretation: ${ideologyResult.textContent}`
+                ];
+                resultsText.forEach(text => { 
+                    if (yPos + 7 > pageHeight - margin) { doc.addPage(); yPos = margin; } 
+                    doc.text(text, margin, yPos); 
+                    yPos += 7; 
+                }); 
+                yPos += 5; 
+                
+                try {
+                    const canvasElement = document.getElementById('compassCanvas');
+                    if (!canvasElement) throw new Error("Compass canvas element not found.");
+
+                    const canvasImgData = await html2canvas(canvasElement, { 
+                        scale: 2, 
+                        backgroundColor: pdfCanvasBg,
+                        logging: true, // Enable html2canvas logging for debugging
+                        useCORS: true // May help with certain rendering issues, though not primary here
+                    }).then(canvas => canvas.toDataURL('image/png', 1.0));
+                    
+                    if (!canvasImgData || canvasImgData === "data:,") { // Check for empty or invalid image data
+                        console.error("html2canvas produced empty or invalid image data.");
+                        throw new Error("html2canvas failed to capture compass image.");
+                    }
+
+                    const imgProps = doc.getImageProperties(canvasImgData);
+                    if (!imgProps || imgProps.width === 0 || imgProps.height === 0) {
+                        console.error("Invalid image properties from canvas data.", imgProps);
+                        throw new Error("Invalid image properties for compass canvas.");
+                    }
+
+                    const imgWidth = pageWidth * 0.6; 
+                    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+                    if (yPos + imgHeight > pageHeight - margin) { doc.addPage(); yPos = margin; }
+                    doc.addImage(canvasImgData, 'PNG', (pageWidth - imgWidth) / 2, yPos, imgWidth, imgHeight); 
+                    yPos += imgHeight + 10;
+
+                } catch (error) { 
+                    console.error("Error capturing or adding compass canvas to PDF: ", error); 
+                    if (yPos + 7 > pageHeight - margin) { doc.addPage(); yPos = margin; } 
+                    doc.setTextColor(pdfAccentColor); // Use a visible color for the error message
+                    doc.text("Error: Could not capture compass chart.", margin, yPos); 
+                    yPos += 7; 
+                }
+                
+                doc.setTextColor(pdfTextColor); // Reset text color for subsequent text
+                if (yPos + 15 > pageHeight - margin) { doc.addPage(); yPos = margin; } 
+                doc.setFontSize(16); doc.setTextColor(pdfMutedColor); 
+                doc.text("Your Answers:", margin, yPos); 
+                yPos += 10;
+                doc.setFontSize(10); doc.setTextColor(pdfTextColor);
+
+                questions.forEach((q, index) => {
+                    const questionText = `${index + 1}. ${q.text}`; 
+                    const userAnswerKey = userAnswers[`q${q.id}`]; 
+                    const userAnswerText = userAnswerKey ? answerLabels[userAnswerKey] : "Not answered";
+                    
+                    const questionLines = doc.splitTextToSize(questionText, pageWidth - (margin * 2)); 
+                    const answerLine = `Your Answer: ${userAnswerText}`;
+                    const questionTextHeight = questionLines.length * 5; // Approximate height
+                    const answerTextHeight = 5; // Approximate height for one line
+
+                    if (yPos + questionTextHeight + answerTextHeight + 2 > pageHeight - margin) { 
+                        doc.addPage(); 
+                        yPos = margin; 
+                    }
+                    
+                    doc.setFont(undefined, 'bold'); 
+                    doc.setTextColor(pdfTextColor); // Ensure question text color
+                    doc.text(questionLines, margin, yPos); 
+                    yPos += questionTextHeight;
+                    
+                    doc.setFont(undefined, 'normal'); 
+                    if (yPos + answerTextHeight > pageHeight - margin) { doc.addPage(); yPos = margin; } // Check for answer line too
+                    doc.setTextColor(pdfMutedColor); // Muted color for the answer label part
+                    doc.text(answerLine, margin + 5, yPos); 
+                    yPos += answerTextHeight + 2; // Add a little spacing
+                });
+                doc.save('political_compass_results.pdf');
+                pdfButton.textContent = 'Download Results PDF'; 
+                pdfButton.classList.remove('button-disabled'); 
+                pdfButton.disabled = false;
+            }
+
+            // Event Listeners
+            if(downloadPdfButton) downloadPdfButton.addEventListener('click', generatePDF);
+            startButton.addEventListener('click', () => { startScreen.classList.add('hidden'); questionsScreen.classList.remove('hidden'); resultsScreen.classList.add('hidden'); progressBarContainer.classList.remove('hidden'); currentQuestionIndex = 0; initializeQuestions(); displayCurrentQuestion(); document.getElementById('main-quiz-area').scrollTo({ top: 0, behavior: 'smooth' }); });
+            prevQuestionButton.addEventListener('click', () => { if (currentQuestionIndex > 0) { const oldIndex = currentQuestionIndex; currentQuestionIndex--; displayCurrentQuestion(oldIndex); } });
+            nextQuestionButton.addEventListener('click', () => {
+                const currentQId = questions[currentQuestionIndex].id; const currentAnswer = quizForm.elements[`q${currentQId}`]?.value;
+                if (!currentAnswer) { showCopyModal("Please select an answer before proceeding."); return; } 
+                if (currentQuestionIndex < questions.length - 1) { const oldIndex = currentQuestionIndex; currentQuestionIndex++; displayCurrentQuestion(oldIndex); } 
+                else { calculateResults(); questionsScreen.classList.add('hidden'); resultsScreen.classList.remove('hidden'); progressBarContainer.classList.add('hidden'); document.getElementById('main-quiz-area').scrollTo({ top: 0, behavior: 'smooth' }); }
+            });
+            quizForm.addEventListener('submit', (e) => e.preventDefault());
+            retakeButton.addEventListener('click', () => { userAnswers = {}; answerContributions = []; quizForm.reset(); resultsScreen.classList.add('hidden'); startScreen.classList.remove('hidden'); influencesContainer.innerHTML = ''; influencesContainer.classList.add('hidden'); currentQuestionIndex = 0; if(progressBarFill) progressBarFill.style.width = '0%'; if(questionCounter) questionCounter.textContent = `Question 1 / ${questions.length}`; progressBarContainer.classList.add('hidden'); document.getElementById('main-quiz-area').scrollTo({ top: 0, behavior: 'smooth' }); });
+            showInfluencesButton.addEventListener('click', () => { if (influencesContainer.classList.contains('hidden')) displayInfluences(); else influencesContainer.classList.add('hidden'); });
+            copyButton.addEventListener('click', () => {
+                const summary = `My Political Compass Results (Marxist Interpretation V2):\nEconomic Score: ${finalEconomicScore.toFixed(1)}\nSocial Score: ${finalSocialScore.toFixed(1)}\nMy Interpretation: ${ideologyResult.textContent}\n\nTake the test yourself! (Link to be added if deployed)`; 
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(summary).then(() => showCopyModal("Results copied to clipboard!")).catch(err => { console.error('Clipboard API failed: ', err); fallbackCopyTextToClipboard(summary); });
+                } else { fallbackCopyTextToClipboard(summary); }
+            });
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement("textarea"); textArea.value = text; textArea.style.position = "fixed"; textArea.style.left = "-9999px"; document.body.appendChild(textArea); textArea.focus(); textArea.select();
+                try { document.execCommand('copy'); showCopyModal("Results copied to clipboard! (fallback)"); } 
+                catch (e) { console.error('Fallback copy failed: ', e); showCopyModal("Could not copy results. Please copy manually."); }
+                document.body.removeChild(textArea);
+            }
+            closeModalButton.addEventListener('click', hideCopyModal);
+            copyModal.addEventListener('click', (event) => { if (event.target === copyModal) hideCopyModal(); });
+            openTheoryModalButton.addEventListener('click', openTheoryModal);
+            closeTheoryModalButton.addEventListener('click', closeTheoryModal);
+            theoryModalBackdrop.addEventListener('click', (event) => { if (event.target === theoryModalBackdrop) closeTheoryModal(); });
+        });
+    </script>
+
+</body>
+</html>
